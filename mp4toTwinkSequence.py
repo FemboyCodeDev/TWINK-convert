@@ -25,23 +25,23 @@ def process_video(video_path):
 
         frame_count += 1
 
-        if frame_count % 1 == 0:
+        if frame_count % 2 == 0:
             cv2.imshow('Video Frame', frame)
 
-            frame_resized = cv2.resize(frame,(64,64))
+            frame_resized = cv2.resize(frame,(int(64*2),int(48*2)))
 
             cv2.imshow('Video Frame Resized', frame_resized)
 
             img = frame_resized
             content = ""
-            for x in range(64):
-                for y in range(64):
-                    r,g,b = img[x][y]
+            for x in range(int(64*2)):
+                for y in range(int(48*2)):
+                    r,g,b = img[y][x]
                     if r+g+b > 1:
                         if (r==g and g==b) or ((abs(r-g)<10) and (abs(r-b) < 10) and (abs(g-b) < 10)):
-                            row = f"{y}:{x}:█:{r}"
+                            row = f"{x}:{y}:█:{r}"
                         else:
-                            row = f"{y}:{x}:█:{r}:{g}:{b}"
+                            row = f"{x}:{y}:█:{r}:{g}:{b}"
                         content = content + row + "\n"
             with open(f"seq\\frame_{frame_count}.TWINK","w",encoding = "utf-8") as file:
                 file.write(content)
